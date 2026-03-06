@@ -1,0 +1,307 @@
+/* ================= GLOBAL RESET ================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ================= BODY ================= */
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f8;
+}
+
+/* ================= HEADER BAR ================= */
+.header-bar{
+    width:100%;
+    height:70px;
+    background:#000;                 /* Black Professional Header */
+    display:flex;
+    align-items:center;
+    padding:0 40px;
+}
+
+/* ROUND LOGO WITH BLACK COATING */
+.header-bar img{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #000;
+    background:#fff;
+}
+
+/* ================= PAGE WRAPPER ================= */
+.wrapper{
+    display:flex;
+    justify-content:flex-start;
+    align-items:flex-start;
+    gap:30px;
+    padding:30px 0 0 60px;  /* 👈 Left spacing control */
+}
+
+
+/* ================= LEFT PANEL ================= */
+.container{
+    background:#ffffff;
+    width:450px;
+    padding:18px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ================= RIGHT PANEL ================= */
+.goods-panel{
+    background:#ffffff;
+    width:720px;
+    padding:18px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    display:none;
+}
+
+/* ================= HEADING ================= */
+h2{
+    text-align:center;
+    font-size:18px;
+    margin-bottom:14px;
+}
+
+/* ================= FORM FIELDS ================= */
+.field{
+    margin-bottom:10px;
+    position:relative;
+}
+
+label{
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:4px;
+    display:block;
+}
+
+input,
+select{
+    width:100%;
+    padding:7px 8px;
+    font-size:13px;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+/* ================= VOUCHER ================= */
+.voucher{
+    display:flex;
+}
+
+.voucher span{
+    background:#eee;
+    padding:7px 12px;
+    font-size:13px;
+    border:1px solid #ccc;
+    border-right:none;
+    border-radius:4px 0 0 4px;
+}
+
+.voucher input{
+    border-left:none;
+    border-radius:0 4px 4px 0;
+}
+
+/* ================= BUTTONS ================= */
+.add-goods-btn,
+.update-btn,
+.back-btn{
+    width:100%;
+    padding:9px;
+    margin-top:10px;
+    font-size:14px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    color:#fff;
+    transition:0.2s;
+}
+
+.add-goods-btn{ background:#007bff; }
+.update-btn{ background:#28a745; }
+.back-btn{ background:#6c757d; }
+
+.add-goods-btn:hover{ background:#0069d9; }
+.update-btn:hover{ background:#218838; }
+.back-btn:hover{ background:#5a6268; }
+
+/* ================= GOODS TABLE ================= */
+table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    margin-top:10px;
+}
+
+/* ================= TABLE CELLS ================= */
+th,
+td{
+    border:1px solid #ccc;
+    padding:8px;
+    font-size:13px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+th{
+    background:#f2f2f2;
+    font-weight:bold;
+}
+
+/* ================= COLUMN WIDTHS ================= */
+th:nth-child(1),
+td:nth-child(1){ width:50px; }
+
+th:nth-child(2),
+td:nth-child(2){ width:280px; }
+
+th:nth-child(3),
+td:nth-child(3){ width:90px; }
+
+th:nth-child(4),
+td:nth-child(4){ width:110px; }
+
+th:nth-child(5),
+td:nth-child(5){ width:120px; }
+
+/* ================= TABLE INPUTS ================= */
+table input,
+table select{
+    width:100%;
+    height:34px;
+    padding:6px 8px;
+    font-size:13px;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+/* ================= ACTION COLUMN ================= */
+.action-cell{
+    padding:4px;
+}
+
+.action-group{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.action-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    cursor:pointer;
+    width:50%;
+}
+
+.icon-add{
+    font-size:20px;
+    font-weight:bold;
+    color:green;
+    line-height:1;
+}
+
+.icon-del{
+    font-size:18px;
+    line-height:1;
+}
+
+.action-text{
+    font-size:11px;
+    color:#555;
+    margin-top:2px;
+    white-space:nowrap;
+}
+
+/* ================= SUGGESTIONS ================= */
+.suggestions{
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background:#ffffff;
+    border:1px solid #ccc;
+    max-height:160px;
+    overflow-y:auto;
+    display:none;
+    z-index:10000;
+    border-radius:4px;
+}
+
+.suggestions div{
+    padding:8px;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.suggestions div:hover{
+    background:#e9f2ff;
+}
+
+.suggestions div.active{
+    background:#007bff;
+    color:#fff;
+}
+
+/* ================= CONFIRM MODAL ================= */
+#confirmModal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:20000;
+}
+
+.modal-box{
+    background:#fff;
+    width:620px;
+    padding:16px;
+    border-radius:6px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+.modal-box h3{
+    text-align:center;
+    margin-top:0;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:12px;
+}
+
+.confirm-btn,
+.cancel-btn{
+    padding:8px 18px;
+    font-size:14px;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    color:#fff;
+}
+
+.confirm-btn{
+    background:#28a745;
+}
+
+.cancel-btn{
+    background:#dc3545;
+}
+
+.confirm-btn:hover{
+    background:#218838;
+}
+
+.cancel-btn:hover{
+    background:#c82333;
+}

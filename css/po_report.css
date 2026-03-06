@@ -1,0 +1,310 @@
+/* ================= PAGE ================= */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #838f9c;
+}
+
+.page {
+    width: 95%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* ================= HEADER ================= */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.logo {
+    position: absolute;
+    right: 300px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ================= DATE + SUPPLIER ROW ================= */
+.filters-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+/* DATE FILTERS */
+.filters {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.date-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-box label {
+    font-size: 14px;
+    margin-bottom: 3px;
+    font-weight: 500;
+}
+
+.date-box input {
+    padding: 5px 8px;
+    font-size: 13px;
+    width: 155px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* DATE APPLY BUTTON */
+.date-apply-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    height: 32px;
+    margin-bottom: 2px;
+    border: none;
+    background: #2cb1d6;
+    color: #f3f2f5;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.date-apply-btn:hover {
+    background: #4fd3e8;
+}
+
+/* ================= SUPPLIER SEARCH ================= */
+.supplier-search {
+    display: flex;
+    align-items: center;
+}
+
+/* ================= SEARCH TOOLBAR ================= */
+.search-section {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 8px;
+}
+
+/* LEFT SEARCH */
+.search-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ================= SEARCH BOX ================= */
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    width: 260px;
+    padding: 8px 40px 6px 36px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #5577a7;
+}
+
+/* SEARCH ICON */
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #6c757d;
+    pointer-events: none;
+}
+
+/* ================= INSIDE SEARCH BUTTON ================= */
+.inside-search-btn {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 6px 10px;
+    font-size: 12px;
+    border: none;
+    background: #2cb1d6;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.inside-search-btn:hover {
+    background: #4fd3e8;
+}
+
+/* ================= SUGGESTION DROPDOWN ================= */
+.suggestion-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: none;
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 9999;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+}
+
+.suggestion-box div {
+    padding: 8px 10px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.suggestion-box div:hover {
+    background: #f2f2f2;
+}
+
+.suggestion-box div.active {
+    background: #2cb1d6;
+    color: #ffffff;
+}
+
+/* ================= STATUS FILTER (NEW) ================= */
+.status-filter {
+    display: flex;
+    flex-direction: column;
+    margin-right: 100px;   /* 🔹 right side move */
+}
+
+.status-filter label {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.status-filter select {
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.status-filter select:focus {
+    outline: none;
+    border-color: #5577a7;
+}
+
+/* ================= NORMAL BUTTONS ================= */
+.search-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    border: none;
+    background: #2cb1d6;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background: #4fd3e8;
+}
+
+/* ================= REFRESH BUTTON ================= */
+.refresh-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    background: #3f51b5;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.refresh-btn:hover {
+    background: #5c6bc0;
+}
+
+/* ================= TABLE CARD ================= */
+.table-card {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* ================= TABLE ================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f1f1f1;
+}
+
+th, td {
+    padding: 10px;
+    font-size: 13px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    font-weight: bold;
+}
+
+/* ================= ACTION BUTTONS ================= */
+.view-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    background: #176d9f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.view-btn:hover {
+    background: #1f87c6;
+}
+
+/* ================= MODAL ================= */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    z-index: 10000;
+}
+
+.modal-content {
+    background: #ffffff;
+    width: 70%;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+}

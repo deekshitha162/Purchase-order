@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Order Report</title>
+
+    <!-- DATATABLE CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- YOUR CSS -->
+    <link rel="stylesheet" href="../css/po_report.css">
+
+    <!-- EXTRA STYLES -->
+    <style>
+        /* hide update & delete buttons */
+        #reportTable tbody td button:nth-child(2),
+        #reportTable tbody td button:nth-child(3) {
+            display: none !important;
+        }
+
+        /* ===== STATUS DROPDOWN BASE ===== */
+        .status-filter {
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+
+            /* remove browser blue */
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #f5f5f5;
+        }
+
+        /* FINISHED → GREEN */
+        .status-filter.finished {
+            background-color: #2ecc71;
+            color: #ffffff;
+            border-color: #27ae60;
+        }
+
+        /* PENDING → RED */
+        .status-filter.pending {
+            background-color: #e74c3c;
+            color: #ffffff;
+            border-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>PURCHASE ORDER REPORT</h1>
+        <a href="../html/home.html" style="display:flex;align-items:center;text-decoration:none;">
+            <img src="../images/CEPL.jpg" class="logo" alt="Company Logo">
+        </a>
+    </div>
+
+    <!-- DATE + SUPPLIER SEARCH ROW -->
+    <div class="filters-row">
+        <div class="filters">
+            <div class="date-box">
+                <label>From Date</label>
+                <input type="date" id="fromDate">
+            </div>
+
+            <div class="date-box">
+                <label>To Date</label>
+                <input type="date" id="toDate">
+            </div>
+
+            <button type="button" class="date-apply-btn" onclick="applyDateFilter()">
+                Apply
+            </button>
+        </div>
+
+        <div class="supplier-search">
+            <div class="search-box with-btn">
+                <span class="search-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="searchName" placeholder="Search by supplier name" autocomplete="off">
+                <button class="inside-search-btn" type="button" onclick="searchBySupplier()">
+                    Search
+                </button>
+                <div id="supplierSuggestions" class="suggestion-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GREY TOOLBAR -->
+    <div class="search-section">
+        <div class="search-left">
+            <div class="search-box">
+                <span class="search-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="searchVoucher" placeholder="Search by voucher / keyword" autocomplete="off">
+                <div id="voucherSuggestions" class="suggestion-box"></div>
+            </div>
+            <button class="search-btn" type="button" onclick="applyVoucherSearch()">
+                Apply
+            </button>
+        </div>
+
+        <!-- RIGHT SIDE ACTIONS -->
+        <div style="display:flex;align-items:center;gap:10px;">
+
+            <!-- STATUS FILTER -->
+            <select id="statusFilter" class="status-filter" onchange="applyStatusFilter()">
+                <option value="ALL">All Status</option>
+                <option value="FINISHED">Finished</option>
+                <option value="PENDING">Pending</option>
+            </select>
+
+            <button class="refresh-btn" type="button" onclick="refreshPage()">
+                ⟳ Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card">
+        <table id="reportTable" class="display">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Voucher No</th>
+                    <th>PO Date</th>
+                    <th>Supplier</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="reportBody"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- JS LIBS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<!-- STATUS COLOR LOGIC -->
+<script>
+function applyStatusFilter() {
+    const select = document.getElementById("statusFilter");
+    const value = select.value;
+
+    // reset
+    select.classList.remove("finished", "pending");
+
+    if (value === "FINISHED") {
+        select.classList.add("finished");
+    } else if (value === "PENDING") {
+        select.classList.add("pending");
+    }
+
+    // existing filter logic
+    if (typeof fetchList === "function") {
+        fetchList({});
+    }
+}
+</script>
+
+<!-- MAIN JS -->
+<script src="../js/po_report.js"></script>
+
+</body>
+</html>

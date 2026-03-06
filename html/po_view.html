@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Purchase Order View</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#f4f6f8;
+    padding:20px;
+    margin:0;
+}
+.section-box{
+    background:#fff;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:6px;
+    position:relative;
+}
+.po-table{
+    width:100%;
+    border-collapse:collapse;
+}
+.po-table th,.po-table td{
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
+}
+.po-table th{background:#f2f2f2}
+
+.status-completed{
+    color:green;
+    font-weight:bold;
+}
+.status-rejected{
+    color:red;
+    font-weight:bold;
+}
+
+.po-final-status{
+    position:absolute;
+    right:120px;
+    top:15px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.blue-btn{
+    background:#007bff;
+    color:#fff;
+    padding:10px 25px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h2 style="text-align:center;color:#c76aa2">Purchase Order View</h2>
+
+<!-- PO HEADER -->
+<div class="section-box">
+<b>Voucher :</b> <span id="voucher"></span><br>
+<b>Date :</b> <span id="po_date"></span><br>
+<b>Supplier :</b> <span id="supplier"></span>
+
+<div class="po-final-status" id="poFinalStatus"></div>
+</div>
+
+<!-- ITEMS TABLE -->
+<div class="section-box">
+<table class="po-table">
+<thead>
+<tr>
+<th>Sl No</th>
+<th>Description</th>
+<th>Qty</th>
+<th>Per</th>
+<th>Pending</th>
+</tr>
+</thead>
+<tbody id="itemsBody"></tbody>
+</table>
+</div>
+
+<!-- GRN TABLE -->
+<div class="section-box">
+<h3>GRN Submitted Details</h3>
+<table class="po-table">
+<thead>
+<tr>
+<th>Sl No</th>
+<th>Description</th>
+<th>Qty</th>
+<th>Received</th>
+<th>Status</th>
+<th>Remarks</th>
+<th>Updated By</th>
+<th>Supplier Invoice No</th>
+<th>Date</th>
+<th>Final Status</th>
+</tr>
+</thead>
+<tbody id="grnBody"></tbody>
+</table>
+</div>
+
+<div style="text-align:center">
+<button class="blue-btn" onclick="goInvoice()">Enter New Invoice Entry</button>
+</div>
+
+<script>
+
+const poId = new URLSearchParams(location.search).get("id");
+let poItems = [];
+let grn = [];
+
+/* LOAD PO */
+fetch("../View_po.php?id=" + poId)
+.then(r => r.json())
+.then(d => {
+
+    voucher.innerText = d.voucher;
+    po_date.innerText = d.po_date;
+    supplier.innerText = d.supplier;
+
+    poItems = d.items;
+
+    loadGRN();
+});
+
+
+/* LOAD GRN */
+
+function loadGRN(){
+
+fetch("../get_grn.php?id=" + poId)
+.then(r => r.json())
+.then(d => {
+
+    grn = d;
+
+    renderItems();
+    renderGRN();
+    renderPOFinalStatus();
+
+});
+
+}
+
+
+
+/* ================= ITEMS TABLE ================= */
+
+function renderItems(){
+
+itemsBody.innerHTML = "";
+
+let sl = 1;
+
+poItems.forEach(item => {
+
+    let accepted = 0;
+
+    grn.forEach(g => {
+
+        if(g.description === item.description && g.status === "Accepted"){
+
+            accepted += Number(g.received_qty || 0);
+
+        }
+
+    });
+
+    let pending = item.quantity - accepted;
+
+    if(pending < 0) pending = 0;
+
+    itemsBody.innerHTML += `
+    <tr>
+        <td>${sl++}</td>
+        <td>${item.description}</td>
+        <td>${item.quantity}</td>
+        <td>${item.per}</td>
+        <td>${pending}</td>
+    </tr>
+    `;
+
+});
+
+}
+
+
+
+/* ================= GRN TABLE ================= */
+
+function renderGRN(){
+
+grnBody.innerHTML = "";
+
+let stat = {};
+let lastRow = {};
+
+
+/* CALCULATE ACCEPTED + REJECT */
+
+grn.forEach((r,i)=>{
+
+    if(!stat[r.description]){
+
+        stat[r.description] = {
+            accepted:0,
+            rejected:false
+        };
+
+    }
+
+    if(r.status === "Accepted"){
+
+        stat[r.description].accepted += Number(r.received_qty || 0);
+
+    }
+
+    if(r.status === "Rejected"){
+
+        stat[r.description].rejected = true;
+
+    }
+
+    lastRow[r.description] = i;
+
+});
+
+
+/* PRINT ROWS */
+
+grn.forEach((r,i)=>{
+
+    let finalStatus = "";
+
+    let item = poItems.find(p => p.description === r.description);
+
+    let s = stat[r.description];
+
+    if(item && lastRow[r.description] === i){
+
+        if(s.accepted >= Number(item.quantity)){
+
+            finalStatus = "<span class='status-completed'>Completed</span>";
+
+        }
+
+        else if(s.accepted === 0 && s.rejected){
+
+            finalStatus = "<span class='status-rejected'>Rejected</span>";
+
+        }
+
+    }
+
+    grnBody.innerHTML += `
+    <tr>
+        <td>${i+1}</td>
+        <td>${r.description}</td>
+        <td>${r.qty}</td>
+        <td>${r.received_qty}</td>
+        <td style="color:${r.status==="Accepted"?"green":"red"}">${r.status}</td>
+        <td>${r.remarks || ""}</td>
+        <td>${r.updated_by || ""}</td>
+        <td>${r.supplier_invoice_number || ""}</td>
+        <td>${r.created_at || ""}</td>
+        <td>${finalStatus}</td>
+    </tr>
+    `;
+
+});
+
+}
+
+
+
+/* ================= PO FINAL STATUS ================= */
+
+function renderPOFinalStatus(){
+
+let hasPending = false;
+
+poItems.forEach(item => {
+
+    let accepted = 0;
+
+    grn.forEach(g => {
+
+        if(g.description === item.description && g.status === "Accepted"){
+
+            accepted += Number(g.received_qty || 0);
+
+        }
+
+    });
+
+    if(item.quantity - accepted > 0){
+
+        hasPending = true;
+
+    }
+
+});
+
+if(hasPending){
+
+    poFinalStatus.innerHTML = "<span style='color:red'>⏳ Pending</span>";
+
+}else{
+
+    poFinalStatus.innerHTML = "<span style='color:green'>✔ Finished</span>";
+
+}
+
+}
+
+
+
+/* GO TO INVOICE ENTRY */
+
+function goInvoice(){
+
+location.href = "../invoice_entry.php?id=" + poId;
+
+}
+
+</script>
+
+</body>
+</html>

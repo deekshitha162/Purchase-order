@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Purchase Order</title>
+
+    <!-- Same CSS you are using for report -->
+    <link rel="stylesheet" href="../css/po_report.css">
+
+    <style>
+        /* PAGE CENTERING FIX */
+        body {
+            margin: 0;
+            background: #8f9aa3;
+            font-family: Arial, sans-serif;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* TITLE CENTER */
+        .page-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* HEADER FIELDS */
+        .filters {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .date-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .date-box input {
+            padding: 6px;
+            width: 200px;
+        }
+
+        /* TABLE CARD */
+        .table-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        td input {
+            width: 90%;
+            padding: 5px;
+        }
+
+        /* UPDATE BUTTON CENTER */
+        .update-btn {
+            display: block;
+            margin: 25px auto;
+            padding: 10px 25px;
+            font-size: 15px;
+            background: #d4b15f;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .update-btn:hover {
+            background: #c4a74f;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <h2 class="page-title">Edit Purchase Order</h2>
+
+    <div class="filters">
+        <div class="date-box">
+            <label>Voucher No</label>
+            <input type="text" id="voucher" readonly>
+        </div>
+
+        <div class="date-box">
+            <label>PO Date</label>
+            <input type="date" id="poDate">
+        </div>
+
+        <div class="date-box">
+            <label>Supplier</label>
+            <input type="text" id="supplier">
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody id="itemBody">
+                <!-- JS will load rows here -->
+            </tbody>
+        </table>
+    </div>
+
+    <button class="update-btn" onclick="updatePO()">
+        Update Purchase Order
+    </button>
+
+</div>
+
+<script src="../js/po_edit.js"></script>
+</body>
+</html>
