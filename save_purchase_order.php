@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors',1);
+
 include "db.php";
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -33,10 +36,10 @@ $checkStmt = $conn->prepare(
     "SELECT id FROM purchase_orders WHERE voucher_no = ? LIMIT 1"
 );
 
-if (!$checkStmt) {
+if(!$checkStmt){
     echo json_encode([
-        "status" => "error",
-        "msg" => "Prepare failed (voucher check)"
+        "status"=>"error",
+        "msg"=>"Prepare failed"
     ]);
     exit;
 }
@@ -48,8 +51,8 @@ $checkStmt->store_result();
 if ($checkStmt->num_rows > 0) {
 
     echo json_encode([
-        "status" => "error",
-        "msg" => "⚠ This voucher number is already used"
+        "status" => "duplicate",
+        "message" => "This voucher number already exists"
     ]);
 
     $checkStmt->close();
@@ -83,8 +86,8 @@ try {
     /* ================= INSERT ITEMS ================= */
     $itemStmt = $conn->prepare(
         "INSERT INTO purchase_order_items
-         (po_id, serial_no, description, quantity, per)
-         VALUES (?, ?, ?, ?, ?)"
+        (po_id, serial_no, description, quantity, per)
+        VALUES (?, ?, ?, ?, ?)"
     );
 
     if (!$itemStmt) {
@@ -96,7 +99,7 @@ try {
     foreach ($items as $item) {
 
         $desc = trim($item['description'] ?? '');
-        $qty  = (int)($item['qty'] ?? 0);
+        $qty  = intval($item['qty'] ?? 0);
         $per  = trim($item['per'] ?? '');
 
         if ($desc === '' || $qty <= 0 || $per === '') {
